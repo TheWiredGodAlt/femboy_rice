@@ -2,95 +2,142 @@
 @import "../colors/colors.css";
 
 * {
-    font-family: "JetBrainsMono Nerd Font";
-    font-size: 13px;
-    font-weight: bold;
-    background-color: transparent;
-    border-radius: 5px;
-    min-height: 30px;
+font-family: "JetBrainsMono Nerd Font";
+font-size: 13px;
+font-weight: bold;
+background-color: transparent;
+border-radius: 5px;
+min-height: 30px;
 }
 
 window,
 tooltip {
-    background-color: @background;
+background-color: @background;
+}
+window#waybar {
+  /* dark acrylic tint, like Win11 dark mode.
+     alpha 0.55–0.75 is the sweet spot:
+     lower = more see-through, higher = more frosted */
+  background: rgba(17, 17, 27, 0.65);
+
+  border-radius: 0px;
+  margin: 6px 8px 0 8px;      /* floating-bar look */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* subtle acrylic edge */
+  /* do NOT add: opacity: ...;  <-- breaks the blur */
 }
 
-#waybar {
-    background: alpha(@background, 0.6);
-    border-radius: 0;
-}
 
 #workspaces {
-    margin: 0px 0;
+margin: 0px 0;
 }
 
 #workspaces button {
-    color: @foreground;
-    border: none;
-    padding: 0 8px;
+color: @foreground;
+border: none;
+padding: 0 8px;
 }
+
 #workspaces button:hover {
-    color: @pink;
-    transition: none;
-    border-bottom: 1px solid @pink;
-    padding: 0 8px;
+color: @pink;
+transition: none;
+border-bottom: 1px solid @pink;
+padding: 0 8px;
 }
 
 #workspaces button.active {
-    color: @pink;
-    border: 2px solid @pink;
-    padding: 0 8px;
-    margin: 0 0px;
+color: @pink;
+border: 2px solid @pink;
+padding: 0 8px;
+margin: 0 0px;
 }
 
 #workspaces button.urgent {
-    background-color: @red;
-    padding: 0 8px;
+background-color: @red;
+padding: 0 8px;
 }
 
 #custom-power,
+#cpu,
+#memory,
 #tray,
 #bluetooth,
 #network,
 #battery,
 #pulseaudio,
+#custom-applauncher,
 #clock {
-    color: @foreground;
-    margin: 1px 0;
-    padding: 0 10px;
+color: @foreground;
+margin: 1px 3px;
+padding: 0 10px;
+}
+
+#custom-stats-toggle,
+#group-stats{
+margin-right: -4px;
+padding: 0 10px;
 }
 
 #custom-power:hover,
+#custom-stats-toggle:hover,
+#cpu:hover,
+#memory:hover,
 #bluetooth:hover,
+#custom-applauncher:hover,
 #network:hover,
 #battery:hover,
 #pulseaudio:hover,
 #clock:hover {
-    background-color: alpha(@select, 0.6);
+background-color: alpha(@select, 0.6);
+}
+
+/* ── Stats drawer styling ─────────────────────────────── */
+/* Toggle button gets a pill feel so it reads as "clickable" */
+#custom-stats-toggle {
+border-radius: 8px;
+padding: 0 8px;
+}
+
+/* Drawer children slide in; slightly tightened spacing */
+#cpu,
+#memory {
+border-radius: 8px;
+padding: 0 6px;
+}
+
+#memory.warning {
+color: @yellow;
+}
+
+#memory.critical {
+color: @red;
 }
 
 #bluetooth {
-    color: @yellow;
+color: @white;
 }
 
 #network {
-    color: @green;
+color: @green;
 }
 
 #battery {
-    color: @purple;
+color: @purple;
 }
 
 #pulseaudio {
-    color: @orange;
+color: @white;
 }
 
 #clock {
-    margin-right: 10px;
-    color: @blue;
+margin-right: 10px;
+color: @white;
 }
 
 #custom-power {
-    margin-left: 10px;
-    padding: 0px 10px 0 15px;
+margin-left: 10px;
+padding: 0px 10px 0 15px;
+}
+#custom-applauncher {
+margin-left: 7px;
+padding: 0px 10px 0 15px;
 }

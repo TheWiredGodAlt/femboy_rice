@@ -1,17 +1,20 @@
 {
     "modules-left": ["custom/power", "hyprland/workspaces"],
     // "modules-center": [],
-    "modules-right": ["tray", "bluetooth", "network", "battery", "pulseaudio", "clock"],
+    "modules-right":["group/stats", "custom/applauncher", "battery", "pulseaudio", "clock"],
 
     "custom/power": {
         "format" : "⭘ ",
         "tooltip": false,
         "on-click": "poweroff"
     },
+
     "hyprland/workspaces": {
-        "disable-scroll": true,
+        "disable-scroll": false,
         "all-outputs": true,
         "tooltip": true,
+        // Explicit click-to-switch — this fixes clicking a workspace icon doing nothing
+         "on-click": "activate",
         "format": "{icon}",
         "format-icons": {
             "active": "󱓻",
@@ -21,6 +24,41 @@
         "persistent-workspaces": {
             "*": [1, 2, 3, 4, 5]
         }
+    },
+
+    // ── Hidden system-monitor drawer ─────────────────────────
+    // First module is the always-visible toggle button.
+    // Click it → the drawer slides open revealing CPU + RAM.
+    "group/stats": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 300,
+            "children-class": "stats-child",
+            "transition-left-to-right": true
+        },
+        "modules": ["custom/stats-toggle", "cpu", "memory","bluetooth", "network","tray"]
+    },
+
+    "custom/stats-toggle": {
+        "format": "󰓅",
+        "tooltip": false
+    },
+
+    "cpu": {
+        "interval": 2,
+        "format": "󰻠 {usage}%",
+        "on-click": "kitty -e htop"
+    },
+
+    "memory": {
+        "interval": 2,
+        "format": "󰍛 {percentage}%",
+        "tooltip-format": "{used:0.1f}GiB / {total:0.1f}GiB",
+        "states": {
+            "warning": 70,
+            "critical": 90
+        },
+        "on-click": "kitty -e htop"
     },
 
     "tray": {
@@ -37,11 +75,12 @@
     },
 
     "network": {
-        "format-wifi": "  {essid}",
-        "format-ethernet": "  Ethernet",
+        "format-wifi": " ",
+        "format-ethernet": " ",
         "format-linked": "  Linked (No IP)",
         "format-disconnected": "  Disconnected",
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format": "{essid}"
     },
 
     "battery": {
@@ -57,7 +96,7 @@
         "format-alt": "{icon} {capacity}%",
         "format-icons": [" ", " ", " ", " ", " "],
         "tooltip-format": "{time}",
-        "cursor": false,
+        "cursor": false
     },
 
     "pulseaudio": {
@@ -70,11 +109,17 @@
             "headset": " ",
             "default": [" "]
         },
+        "tooltip": true,
         "on-click": "pavucontrol"
+    },
+        "custom/applauncher": {
+        "format": "",
+        "on-click": "pgrep wofi >/dev/null 2>&1 && killall wofi || wofi --show drun",
+        "tooltip": false
     },
 
     "clock": {
-        "format": "{:%a %d/%m/%Y ~ %H:%M}",
+        "format": "{:%H:%M  %a/%d/%m}",
         "tooltip-format": "<span size='15000'><tt>{calendar}</tt></span>",
         "calendar": {
             "mode": "month",
